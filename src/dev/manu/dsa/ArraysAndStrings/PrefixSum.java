@@ -6,9 +6,11 @@ import java.util.Map;
 public class PrefixSum {
     static void main() {
         int[] arr = {3, 1, 4, 1, 5, 9, 2, 6};
-        PrefixSum ps = new PrefixSum(arr);
-        System.out.println(ps.rangeSum(2, 5));
-        System.out.println(ps.rangeSum(0, 3));
+        NumArr narr = new NumArr(arr);
+        System.out.println(narr.rangeSum(2,5));
+//        PrefixSum ps = new PrefixSum(arr);
+//        System.out.println(ps.rangeSum(2, 5));
+//        System.out.println(ps.rangeSum(0, 3));
     }
     private int[] prefix;
     //O(n) constructor
@@ -35,5 +37,19 @@ public class PrefixSum {
             count.merge(prefix, 1, Integer::sum);
         }
         return result;
+    }
+
+    public static class NumArr {
+        private int[] prefix;
+        public NumArr(int[] arr) {
+            int n = arr.length;
+            this.prefix = new int[n + 1];
+            for (int i = 0; i < n; i++) {
+                this.prefix[i + 1] = prefix[i] + arr[i];
+            }
+        }
+        public int rangeSum(int low, int high) {
+            return prefix[high + 1] - prefix[low];
+        }
     }
 }
